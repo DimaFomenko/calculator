@@ -30,82 +30,64 @@ document.addEventListener('DOMContentLoaded', function() {
     let procDotButton = document.querySelector(".dot");
     let procEqualButton = document.querySelector(".equal");
 
-    function procCheck(input, arr) {
-        let x = arr.length-1; 
-        let y = arr.length-2;
-        if (['+','-','*','/'].includes(arr[x]) && ['+','-','*','/'].includes(input)) {
-            arr[y,x] = input;
-            return arr;
-        } else if (arr[x] === '.' && input === '.') {
-            arr[x] = input;
-            return arr;
+    function numberInput(x) {
+        if (counter === 0) {
+            zeroValue.push(x);
+            let value = zeroValue.slice(1).join();
+            console.log(value, counter)
+            zeroValue = [value];
+            console.log(zeroValue);
+            unswer.innerHTML = value;
+            counter++
+            return value;
         } else {
-            arr.push(input);
-            return arr;
+            zeroValue.push(x);
+            let value = zeroValue.join('');
+            // zeroValue = [value];
+            unswer.innerHTML = value;
+            console.log(zeroValue);
+            counter++
+            return value;
         }
     }
-
     num1Button.addEventListener("click", function() {
-        zeroValue.push('1');
-        zeroValue.join('');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('1');
     });
     num2Button.addEventListener("click", function() {
-        zeroValue.push('2');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('2');
     });
     num3Button.addEventListener("click", function() {
-        zeroValue.push('3');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('3');
     });
     num4Button.addEventListener("click", function() {
-        zeroValue.push('4');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('4');
     });
     num5Button.addEventListener("click", function() {
-        zeroValue.push('5');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('5');
     });
     num6Button.addEventListener("click", function() {
-        zeroValue.push('6');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('6');
     });
     num7Button.addEventListener("click", function() {
-        zeroValue.push('7');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('7');
     });
     num8Button.addEventListener("click", function() {
-        zeroValue.push('8');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('8');
     });
     num9Button.addEventListener("click", function() {
-        zeroValue.push('9');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('9');
     });
     num0Button.addEventListener("click", function() {
-        zeroValue.push('0');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('0');
     });
     num00Button.addEventListener("click", function() {
-        zeroValue.push('00');
-        console.log(zeroValue, counter)
-        counter++;
+        numberInput('00');
     });
 
 
     procPercentButton.addEventListener("click", function() {
         if (counter > 0) {
-            let percentage = (zeroValue.slice(1).join(''))/100;
+            let percentage = zeroValue[0]/100;
             unswer.innerHTML = percentage;
             console.log(percentage,counter);
             zeroValue = [percentage];
@@ -121,36 +103,26 @@ document.addEventListener('DOMContentLoaded', function() {
         reset()
     })
     procMultipleButton.addEventListener("click", function() {
-        let firstNumber = zeroValue.slice(1, zeroValue.length).join('')
-        procCheck('*', zeroValue);
-        zeroValue = [firstNumber, '*']
-        unswer.innerHTML = zeroValue;
+        zeroValue.push('*');
+        unswer.innerHTML = zeroValue.join('');
         console.log(zeroValue, counter)
         counter++;
     })
     procDivideButton.addEventListener("click", function() {
-        let firstNumber = zeroValue.slice(1, zeroValue.length).join('')
-        procCheck('/', zeroValue);
+        zeroValue.push('/');
+        unswer.innerHTML = zeroValue.join('');
         console.log(zeroValue, counter)
-        zeroValue = [firstNumber, '/']
-        unswer.innerHTML = zeroValue;
-
         counter++;
     })
     procAddButton.addEventListener("click", function() {
-        let firstNumber = zeroValue.slice(1, zeroValue.length).join('')
-        procCheck('+', zeroValue);
+        zeroValue.push('+');
+        unswer.innerHTML = zeroValue.join('');
         console.log(zeroValue, counter)
-        zeroValue = [firstNumber, '+']
-        unswer.innerHTML = zeroValue;
-        
         counter++;
     })
     procSubstractButton.addEventListener("click", function() {
-        let firstNumber = zeroValue.slice(1, zeroValue.length).join('')
-        procCheck('-', zeroValue);
-        zeroValue = [firstNumber, '-']
-        unswer.innerHTML = zeroValue;
+        zeroValue.push('-');
+        unswer.innerHTML = zeroValue.join('');
         console.log(zeroValue, counter)
         counter++;
     })
@@ -160,32 +132,51 @@ document.addEventListener('DOMContentLoaded', function() {
         counter++;
     })
     procEqualButton.addEventListener("click", function() {
-        if (zeroValue[1] === '*') {
-            let lastNumber = zeroValue.slice(2, zeroValue.length).join('')
-            let answer = zeroValue[0] * lastNumber;
+        if (zeroValue.includes('*')) {
+            let index = zeroValue.indexOf('*');
+            let z = zeroValue.length
+            let firstNumber = zeroValue.slice(0, index).join('');
+            console.log(firstNumber);
+            let lastNumber = zeroValue.slice(index+1, z).join('')
+            console.log(lastNumber);
+            let answer = firstNumber * lastNumber;
             zeroValue = [answer];
             console.log(zeroValue);
             unswer.innerHTML = zeroValue;
         } else if (zeroValue[1] === '/') {
-            let lastNumber = zeroValue.slice(2, zeroValue.length).join('')
-            let answer = zeroValue[0] / lastNumber;
+            let index = zeroValue.indexOf('/');
+            let z = zeroValue.length
+            let firstNumber = zeroValue.slice(0, index).join('');
+            console.log(firstNumber);
+            let lastNumber = zeroValue.slice(index+1, z).join('')
+            console.log(lastNumber);
+            let answer = firstNumber / lastNumber;
             zeroValue = [answer];
-            unswer.innerHTML = zeroValue;
             console.log(zeroValue);
+            unswer.innerHTML = zeroValue;
         } else if (zeroValue[1] === '-') {
-            let lastNumber = zeroValue.slice(2, zeroValue.length).join('')
-            let answer = zeroValue[0] - lastNumber;
+            let index = zeroValue.indexOf('-');
+            let z = zeroValue.length
+            let firstNumber = zeroValue.slice(0, index).join('');
+            console.log(firstNumber);
+            let lastNumber = zeroValue.slice(index+1, z).join('')
+            console.log(lastNumber);
+            let answer = firstNumber - lastNumber;
             zeroValue = [answer];
-            unswer.innerHTML = zeroValue;
             console.log(zeroValue);
+            unswer.innerHTML = zeroValue;
         } else if (zeroValue[1] === '+') {
-            let lastNumber = zeroValue.slice(2, zeroValue.length).join('')
-            let answer = zeroValue[0] + lastNumber;
+            let index = zeroValue.indexOf('+');
+            let z = zeroValue.length
+            let firstNumber = zeroValue.slice(0, index).join('');
+            console.log(firstNumber);
+            let lastNumber = zeroValue.slice(index+1, z).join('');
+            console.log(lastNumber);
+            let answer = Number(firstNumber) + Number(lastNumber);
             zeroValue = [answer];
             unswer.innerHTML = zeroValue;
             console.log(zeroValue);
         }
-    
     // reset()
     });
 
