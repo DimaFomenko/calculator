@@ -50,6 +50,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return value;
         }
     }
+    function symbolCheck(x) {
+        if (['+','-','*','/'].includes(zeroValue[zeroValue.length-1])) {
+            zeroValue[zeroValue.length-1] = x;
+            unswer.innerHTML = zeroValue.join('');
+            console.log(zeroValue, counter)
+            counter++;
+        } else {
+            zeroValue.push(x);
+            unswer.innerHTML = zeroValue.join('');
+            console.log(zeroValue, counter)
+            counter++;
+        }
+    }
     num1Button.addEventListener("click", function() {
         numberInput('1');
     });
@@ -103,81 +116,56 @@ document.addEventListener('DOMContentLoaded', function() {
         reset()
     })
     procMultipleButton.addEventListener("click", function() {
-        zeroValue.push('*');
-        unswer.innerHTML = zeroValue.join('');
-        console.log(zeroValue, counter)
-        counter++;
+        symbolCheck('*')
     })
     procDivideButton.addEventListener("click", function() {
-        zeroValue.push('/');
-        unswer.innerHTML = zeroValue.join('');
-        console.log(zeroValue, counter)
-        counter++;
+        symbolCheck('/')
     })
     procAddButton.addEventListener("click", function() {
-        zeroValue.push('+');
-        unswer.innerHTML = zeroValue.join('');
-        console.log(zeroValue, counter)
-        counter++;
+        symbolCheck('+')
     })
     procSubstractButton.addEventListener("click", function() {
-        zeroValue.push('-');
-        unswer.innerHTML = zeroValue.join('');
-        console.log(zeroValue, counter)
-        counter++;
+        symbolCheck('-')
     })
     procDotButton.addEventListener("click", function() {
-        procCheck('.', zeroValue);
-        console.log(zeroValue, counter)
-        counter++;
+        if (zeroValue.includes('.')) {
+            return zeroValue
+        } else {
+            symbolCheck('.')
+        }
     })
     procEqualButton.addEventListener("click", function() {
-        if (zeroValue.includes('*')) {
-            let index = zeroValue.indexOf('*');
-            let z = zeroValue.length
-            let firstNumber = zeroValue.slice(0, index).join('');
-            console.log(firstNumber);
-            let lastNumber = zeroValue.slice(index+1, z).join('')
-            console.log(lastNumber);
-            let answer = firstNumber * lastNumber;
-            zeroValue = [answer];
-            console.log(zeroValue);
-            unswer.innerHTML = zeroValue;
-        } else if (zeroValue[1] === '/') {
-            let index = zeroValue.indexOf('/');
-            let z = zeroValue.length
-            let firstNumber = zeroValue.slice(0, index).join('');
-            console.log(firstNumber);
-            let lastNumber = zeroValue.slice(index+1, z).join('')
-            console.log(lastNumber);
-            let answer = firstNumber / lastNumber;
-            zeroValue = [answer];
-            console.log(zeroValue);
-            unswer.innerHTML = zeroValue;
-        } else if (zeroValue[1] === '-') {
-            let index = zeroValue.indexOf('-');
-            let z = zeroValue.length
-            let firstNumber = zeroValue.slice(0, index).join('');
-            console.log(firstNumber);
-            let lastNumber = zeroValue.slice(index+1, z).join('')
-            console.log(lastNumber);
-            let answer = firstNumber - lastNumber;
-            zeroValue = [answer];
-            console.log(zeroValue);
-            unswer.innerHTML = zeroValue;
-        } else if (zeroValue[1] === '+') {
-            let index = zeroValue.indexOf('+');
-            let z = zeroValue.length
-            let firstNumber = zeroValue.slice(0, index).join('');
-            console.log(firstNumber);
-            let lastNumber = zeroValue.slice(index+1, z).join('');
-            console.log(lastNumber);
-            let answer = Number(firstNumber) + Number(lastNumber);
-            zeroValue = [answer];
-            unswer.innerHTML = zeroValue;
-            console.log(zeroValue);
+        let operators = ['*', '/', '-', '+'];
+        for (let operator of operators) {
+            if (zeroValue.includes(operator)) {
+                let index = zeroValue.indexOf(operator);
+                let firstNumber = zeroValue.slice(0, index).join('');
+                let lastNumber = zeroValue.slice(index + 1).join('');
+                let answer;
+                switch (operator) {
+                    case '*':
+                        answer = (+firstNumber) * (+lastNumber);
+                        break;
+                    case '/':
+                        answer = (+firstNumber) / (+lastNumber);
+                        break;
+                    case '-':
+                        answer = (+firstNumber) - (+lastNumber);
+                        break;
+                    case '+':
+                        answer = (+firstNumber) + (+lastNumber);
+                        break;
+                }
+    
+                zeroValue = [answer];
+                unswer.innerHTML = zeroValue;
+                console.log(zeroValue);
+                return;
+            }
         }
-    // reset()
+        
+        return (console.log(zeroValue)); // if no operator is found
     });
+    
 
 })
